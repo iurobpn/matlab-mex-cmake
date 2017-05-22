@@ -13,17 +13,22 @@ SET(MATLAB_ROOT "~/opt/MATLAB/R2016b")
 set(CMAKE_CXX_STANDARD 11)
 SET(MEX_SAVE_PATH "${CMAKE_SOURCE_DIR}")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -std=c99 -DMX_COMPAT_32 -DMATLAB_MEX_FILE")
-SET(MEX_FLAGS "-g -cxx CC='gcc' CXX='gcc' LD='gcc'")
-SET(MEX_LIBS "-lpthread -lgthread-2.0 -lrt -lglib-2.0")
+set(WRAP "mex_stub")
+set(WRAP_FILE "${WRAP}.c")
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
-# add_custom_target(timestwo mex SOURCES timestwo.c)
 include_directories("${MATLAB_ROOT}/extern/include")
 
 add_library(${PROJECT_NAME} timestwo.c)
 
-add_library(mex_stub OBJECT mex_stub.c)
+add_library(${WRAP} OBJECT ${WRAP_FILE})
 
 ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND mex  -L./  -l${PROJECT_NAME}  -output ${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/build/CMakeFiles/mex_stub.dir/mex_stub.c.o
+    COMMAND mex  -L./  -l${PROJECT_NAME}  -output ${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/build/CMakeFiles/${WRAP}.dir/${WRAP_FILE}.o
 )
+# message("library_output_path: ${LIBRARY_OUTPUT_PATH}") 
+# message("project_binary_dir: ${PROJECT_BINARY_DIR}") 
+# message("project_source_dir: ${PROJECT_SOURCE_DIR}") 
+# message("c flags: ${CMAKE_C_FLAGS}") 
+# message("c++ flags: ${CMAKE_CXX_FLAGS}") 

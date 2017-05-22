@@ -55,3 +55,4 @@ build/
 *.mexa64
 mex_link.sh
 matcreat.c
+.*.*.swp
