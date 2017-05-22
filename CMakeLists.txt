@@ -9,17 +9,21 @@ cmake_minimum_required(VERSION 2.8.10)
 # find_package(CGAL QUIET COMPONENTS Core )
 
 # include( ${CGAL_USE_FILE} )
-
+SET(MATLAB_ROOT "~/opt/MATLAB/R2016b")
 set(CMAKE_CXX_STANDARD 11)
 SET(MEX_SAVE_PATH "${CMAKE_SOURCE_DIR}")
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -std=c99 -DMX_COMPAT_32 -DMATLAB_MEX_FILE")
-SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${MEX_SAVE_PATH}/${PROJECT_NAME}.mexa64;mex_stub.o")
+SET(MEX_FLAGS "-g -cxx CC='gcc' CXX='gcc' LD='gcc'")
+SET(MEX_LIBS "-lpthread -lgthread-2.0 -lrt -lglib-2.0")
 
 # add_custom_target(timestwo mex SOURCES timestwo.c)
-include_directories("/home/gagarin/opt/MATLAB/R2016b/extern/include")
+include_directories("${MATLAB_ROOT}/extern/include")
+
 add_library(${PROJECT_NAME} timestwo.c)
+
+add_library(mex_stub OBJECT mex_stub.c)
+
 ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND ${PROJECT_SOURCE_DIR}/mex_link.sh ${PROJECT_NAME} ${MEX_SAVE_PATH}
+    COMMAND mex  -L./  -l${PROJECT_NAME}  -output ${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/build/CMakeFiles/mex_stub.dir/mex_stub.c.o
 )
-
