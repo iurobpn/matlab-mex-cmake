@@ -1,7 +1,7 @@
 #include "mex.h"
 
 /*
- * timestwo.c - example found in API guide
+ * timesfour.c - example found in API guide
  *
  * Computational function that takes a scalar and doubles it.
  *
@@ -12,9 +12,9 @@
 #include "mex_main.h"
  
 
-void timestwo(double y[], double x[])
+void timesfour(double y[], double x[])
 {
-  y[0] = 2.0*x[0];
+  y[0] = 4.0*x[0];
 }
 
 void __mexFunction__( int nlhs, mxArray *plhs[],
@@ -25,10 +25,10 @@ void __mexFunction__( int nlhs, mxArray *plhs[],
   
   /* Check for proper number of arguments. */
   if(nrhs!=1) {
-    mexErrMsgIdAndTxt( "MATLAB:timestwo:invalidNumInputs",
+    mexErrMsgIdAndTxt( "MATLAB:timesfour:invalidNumInputs",
             "One input required.");
   } else if(nlhs>1) {
-    mexErrMsgIdAndTxt( "MATLAB:timestwo:maxlhs",
+    mexErrMsgIdAndTxt( "MATLAB:timesfour:maxlhs",
             "Too many output arguments.");
   }
   
@@ -37,7 +37,7 @@ void __mexFunction__( int nlhs, mxArray *plhs[],
   ncols = mxGetN(prhs[0]);
   if( !mxIsDouble(prhs[0]) || mxIsComplex(prhs[0]) ||
       !(mrows==1 && ncols==1) ) {
-    mexErrMsgIdAndTxt( "MATLAB:timestwo:inputNotRealScalarDouble",
+    mexErrMsgIdAndTxt( "MATLAB:timesfour:inputNotRealScalarDouble",
             "Input must be a noncomplex scalar double.");
   }
   
@@ -48,7 +48,7 @@ void __mexFunction__( int nlhs, mxArray *plhs[],
   x = mxGetPr(prhs[0]);
   y = mxGetPr(plhs[0]);
   
-  /* Call the timestwo subroutine. */
-  timestwo(y,x);
+  /* Call the timesfour subroutine. */
+  timesfour(y,x);
 }
 

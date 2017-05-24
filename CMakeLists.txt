@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( timestwo )
+project( timesfour )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -20,7 +20,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS}")
 
 include_directories("${MATLAB_ROOT}/extern/include")
-add_library(${PROJECT_NAME} timestwo.cpp)
+add_library(${PROJECT_NAME} timesfour.cpp)
 
 add_library(${WRAP} OBJECT ${WRAP_FILE})
 
